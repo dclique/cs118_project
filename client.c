@@ -105,6 +105,7 @@ int main(int argc, char **argv) {
       timersub(&t2,&t1,&t3);
       printf("TIME: %d.%d - A packet was corrupted with seq no: %d\n", (int) t3.tv_sec, (int) t3.tv_usec, received_pkt.seq_no);
       //printf("A packet was corrupted with seq no: %d\n", received_pkt.seq_no);
+      
       //send an ACK for the last expected ACK number -1
       ack_pkt.packet_type = ACK;
       ack_pkt.seq_no = expected_ack_no - 1;

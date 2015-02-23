@@ -10,7 +10,7 @@
 #include "packet.c"
 
 #define TIMEOUT 10000 //timeout period in microseconds
-#define WINDOWSIZE 8
+#define WINDOWSIZE 8 //size of window
 
 void error(char *msg) {
   perror(msg);
@@ -77,7 +77,8 @@ int main(int argc, char *argv[]) {
       time(&timer);
       gettimeofday(&t1, NULL);
       printf("Request packet received, size %d\n", received_pkt.length);
-      printf("file requested: %s\n", received_pkt.data);	
+      printf("file requested: %s\n", received_pkt.data);
+      
       //open file, save to buffer
       FILE* f;
       if((f = fopen(received_pkt.data, "r")) != NULL) {
@@ -125,6 +126,7 @@ int main(int argc, char *argv[]) {
 	    gettimeofday(&t2, NULL);
 	    timersub(&t2,&t1,&t3);
 	    printf("TIME: %d.%d - Sending data packet with seq. number: %d\n", (int) t3.tv_sec, (int) t3.tv_usec, data_pkt.seq_no);
+	    
 	    //send the buffer
 	    n = sendto(sockfd, &data_pkt, data_pkt.length, 0, (struct sockaddr*) &client_addr, clilen);
 	    if (n < 0)
